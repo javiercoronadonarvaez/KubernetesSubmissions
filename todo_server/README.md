@@ -1,6 +1,6 @@
 ## ToDo Server
 
-### Follow these instructions to run the program
+### Follow these instructions to run the program using deployment.yaml
 
 1. Create Cluster.
 
@@ -14,31 +14,26 @@ k3d cluster create todo-server -a 2
 kubectl config use-context k3d-todo-server
 ```
 
-3. Create `todo-server-dep` deployment with image `javiercoronadonarvaez/todo-server`.
+3. Create deployment with:
 
 ```bash
-kubectl create deployment todo-server-dep --image=javiercoronadonarvaez/todo-server
+kubectl apply -f manifests/deployment.yaml
 ```
 
-4. Confirm pod is existing and available.
+4. Confirm deployment and pod is existing and available.
+
+```bash
+kubectl get deployments
+```
 
 ```bash
 kubectl get pods
 ```
 
-In my case, the pod's name is `todo-server-dep-689cbdcf4f-w9zqv`
+In my case, the pod's name is `todo-server-deployment-866bdc5cfb-khwck`
 
 5. See the output by running the following command:
 
 ```bash
-kubectl logs -f todo-server-dep-689cbdcf4f-w9zqv
+kubectl logs -f todo-server-deployment-866bdc5cfb-khwck
 ```
-
-NOTE:
-You can expect the output as a logger statement, as in the following:
-
-```bash
-[Nest] 34  - 10/26/2025, 11:34:32 PM     LOG [Bootstrap] Server started on port 3000
-```
-
-![alt text](image.png)
