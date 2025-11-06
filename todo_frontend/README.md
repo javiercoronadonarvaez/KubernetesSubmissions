@@ -1,6 +1,6 @@
-## ToDo Frontend Simple Application Hello World
+## ToDo Frontend
 
-### Follow these instructions to run the program using deployment.yaml and exposing the application via service.yaml
+### Follow these instructions to run the program using deployment.yaml, service.yaml and ingress.yaml
 
 1. Create Cluster.
 
@@ -8,16 +8,13 @@
 k3d cluster create todo-frontend --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
 ```
 
-2. Create deployment with the following command and from `todo_frontend` directory:
+2. Apply manifests as defined in `deployment`, `service` and `ingress` yaml files from `todo-frontend`.
 
 ```bash
-kubectl apply -f manifests/deployment.yaml
+kubectl apply -f manifests
 ```
 
-3. Create service with the following command and from `todo_frontend` directory:
+3. Open application at http://localhost:8081.
 
-```bash
-kubectl apply -f manifests/service.yaml
-```
-
-4. Open application at http://localhost:8082.
+Expect the following message:
+`Hello World`
