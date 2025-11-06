@@ -10,3 +10,4 @@
 - [1.4.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/1.4/todo_server)
 - [1.5.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/1.5/todo_frontend)
 - [1.6.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/1.6/todo_frontend)
+- [1.7.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/1.7/log_output)
