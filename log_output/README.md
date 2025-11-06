@@ -1,39 +1,20 @@
 ## Log Output
 
-### Follow these instructions to run the program using deployment.yaml
+### Follow these instructions to run the program using deployment.yaml and ingress.yaml
 
 1. Create Cluster.
 
 ```bash
-k3d cluster create log-output -a 2
+k3d cluster create log-output --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
 ```
 
-2. Switch `kubectl` to use the `k3d-log-output` context.
+2. Apply manifests as defined in `deployment`, `service` and `ingress` yaml files from `log_output`.
 
 ```bash
-kubectl config use-context k3d-log-output
+kubectl apply -f manifests
 ```
 
-3. Create deployment with:
+3. Send `GET` request to http://localhost:8081.
 
-```bash
-kubectl apply -f manifests/deployment.yaml
-```
-
-4. Confirm deployment and pod is existing and available.
-
-```bash
-kubectl get deployments
-```
-
-```bash
-kubectl get pods
-```
-
-In my case, the pod's name is `log-output-deployment-7df54d4b6b-286kh`
-
-5. See the output by running the following command:
-
-```bash
-kubectl logs -f log-output-deployment-7df54d4b6b-286kh
-```
+Expect something like the following:
+`2025-11-06T01:16:43.518Z: 08433dc7-f246-462a-a982-92e06833ae6a`

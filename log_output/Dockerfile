@@ -9,4 +9,8 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
+ENV PORT=3000
+    
+EXPOSE $PORT
+
 CMD ["pnpm", "start"]
