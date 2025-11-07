@@ -18,7 +18,7 @@ kubectl apply -f manifests/deployment.yaml
 kubectl apply -f manifests/service.yaml
 ```
 
-3. Apply manifests as defined in `deployment`, `service` and `ingress` yaml files from the `ping_pong_app` directory.
+3. Apply manifests as defined in `deployment`, `service` and `ingress` yaml files from the `ping_pong` directory.
 
 ```bash
 kubectl apply -f manifests
