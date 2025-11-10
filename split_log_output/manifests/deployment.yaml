@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: split-log-output-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: split-log-output
+  template:
+    metadata:
+      labels:
+        app: split-log-output
+    spec:
+      volumes:
+        - name: shared-logs
+          emptyDir: {}
+      containers:
+        - name: log-writer
+          image: javiercoronadonarvaez/log-writer:v1.0.0
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /usr/src/app/files
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env:
+            - name: PORT
+              value: "3001"
+        - name: log-fetcher
+          image: javiercoronadonarvaez/log-fetcher:v1.0.0
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /usr/src/app/files
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env:
+            - name: PORT
+              value: "3000"
