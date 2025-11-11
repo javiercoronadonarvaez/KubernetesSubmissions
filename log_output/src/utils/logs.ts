@@ -20,8 +20,7 @@ export const getFile = async (filePath: string): Promise<string> =>
   new Promise((response, reject) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
-        if (err.code === 'ENOENT')
-          return response('Awaiting file creation and log write up');
+        if (err.code === 'ENOENT') return response('File does not exist yet');
         console.log('FAILED TO READ FILE', '----------------', err);
         return reject(err);
       }
@@ -32,6 +31,12 @@ export const getFile = async (filePath: string): Promise<string> =>
 export const getLastLine = (body: string): string => {
   const lines = body.trim().split('\n');
   return lines[lines.length - 1] || '';
+};
+
+export const getCounter = (body: string): string => {
+  const lastMessage = body.trim();
+  console.log('Last message:', lastMessage);
+  return lastMessage;
 };
 
 export const writeToFile = async (

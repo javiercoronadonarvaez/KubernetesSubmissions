@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: split-log-output-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /fetch
+            pathType: Prefix
+            backend:
+              service:
+                name: split-log-output-svc
+                port:
+                  number: 2345
+          - path: /write
+            pathType: Prefix
+            backend:
+              service:
+                name: split-log-output-svc
+                port:
+                  number: 2346
