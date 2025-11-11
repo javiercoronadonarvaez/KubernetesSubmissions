@@ -1,25 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: split-log-output-deployment
+  name: shared-ping-log-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: split-log-output
+      app: shared-ping-log
   template:
     metadata:
       labels:
-        app: split-log-output
+        app: shared-ping-log
     spec:
       volumes:
-        - name: shared-logs
-          emptyDir: {}
+        - name: shared-ping-log
+          persistentVolumeClaim:
+            claimName: shared-ping-log-claim
       containers:
-        - name: log-writer
-          image: javiercoronadonarvaez/log-writer:v1.0.0
+        - name: ping-pong
+          image: javiercoronadonarvaez/ping-pong:v1.1.0
           volumeMounts:
-            - name: shared-logs
+            - name: shared-ping-log
               mountPath: /usr/src/app/files
           resources:
             requests:
@@ -31,10 +32,10 @@ spec:
           env:
             - name: PORT
               value: "3001"
-        - name: log-fetcher
-          image: javiercoronadonarvaez/log-fetcher:v1.0.0
+        - name: log-output
+          image: javiercoronadonarvaez/log-output:v1.1.0
           volumeMounts:
-            - name: shared-logs
+            - name: shared-ping-log
               mountPath: /usr/src/app/files
           resources:
             requests:
