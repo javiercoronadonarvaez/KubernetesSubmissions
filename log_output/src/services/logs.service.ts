@@ -5,7 +5,7 @@ import path from 'path';
 @Injectable()
 export class LogsService implements OnModuleInit {
   private directory = path.join('/', 'usr', 'src', 'app', 'files');
-  private filePath = path.join(this.directory, 'output.txt');
+  private filePath = path.join(this.directory, 'log_output.txt');
 
   async onModuleInit() {
     await writeToFile(this.directory, this.filePath);
