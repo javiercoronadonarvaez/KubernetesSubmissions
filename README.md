@@ -14,3 +14,4 @@
 - [1.8.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/1.8/todo_frontend)
 - [1.9.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/1.9/ping_pong)
 - [1.10.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/1.10/split_log_output)
+- [1.11.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/1.11/shared_ping_log)
