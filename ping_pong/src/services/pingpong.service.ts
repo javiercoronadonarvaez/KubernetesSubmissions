@@ -1,14 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { createDirectory, getFile, getCounter } from '../utils/pingpong';
+import path from 'path';
 
 @Injectable()
-export class PingPongService {
-  private counter = 0;
-  private increamentCounter = this.counter;
+export class PingPongService implements OnModuleInit {
+  private directory = path.join('/', 'usr', 'src', 'app', 'files');
+  private filePath = path.join(this.directory, 'ping_pong_output.txt');
 
-  getCounter(): string {
-    this.counter = this.increamentCounter;
-    this.increamentCounter += 1;
-    const output = `pong ${this.counter.toString()}`;
-    return output;
+  async onModuleInit() {
+    await createDirectory(this.directory);
   }
+
+  public getCounter = async (): Promise<string> => {
+    const textFile = await getFile(this.filePath);
+    const counterMessage = await getCounter(textFile, this.filePath);
+    return counterMessage;
+  };
 }

@@ -8,7 +8,7 @@ export class PingPongController {
 
   @Get()
   @ApiResponse({ status: 200, description: 'Ping Pong Response', type: String })
-  getCounter(): string {
+  async getCounter(): Promise<string> {
     return this.pingPongService.getCounter();
   }
 }
