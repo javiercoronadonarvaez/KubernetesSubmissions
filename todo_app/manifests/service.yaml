@@ -11,7 +11,7 @@ spec:
       port: 2345
       protocol: TCP
       targetPort: 3000
-    # - name: ping-pong
-    #   port: 2346
-    #   protocol: TCP
-    #   targetPort: 3001
+    - name: todo-frontend
+      port: 2346
+      protocol: TCP
+      targetPort: 3001

@@ -17,21 +17,6 @@ spec:
           persistentVolumeClaim:
             claimName: todo-app-claim
       containers:
-        # - name: todo-frontend
-        #   image: javiercoronadonarvaez/todo-frontend:v1.1.0
-        #   volumeMounts:
-        #     - name: todo-app
-        #       mountPath: /usr/src/app/files
-        #   resources:
-        #     requests:
-        #       cpu: "100m"
-        #       memory: "128Mi"
-        #     limits:
-        #       cpu: "500m"
-        #       memory: "512Mi"
-        #   env:
-        #     - name: PORT
-        #       value: "3001"
         - name: todo-server
           image: javiercoronadonarvaez/todo-server:v2.0.0
           volumeMounts:
@@ -47,3 +32,18 @@ spec:
           env:
             - name: PORT
               value: "3000"
+        - name: todo-frontend
+          image: javiercoronadonarvaez/todo-frontend:v1.1.0
+          volumeMounts:
+            - name: todo-app
+              mountPath: /usr/src/app/files
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env:
+            - name: PORT
+              value: "3001"

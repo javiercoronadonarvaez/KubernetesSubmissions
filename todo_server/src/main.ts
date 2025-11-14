@@ -16,7 +16,7 @@ const bootstrap = async (): Promise<void> => {
   await imageService.getRemoteImageStream();
   logger.log('Fetched and saved remote image ON STARTUP');
 
-  // Call getRemoteImageStream every 10 seconds
+  // Call getRemoteImageStream every 10 minutes
   setInterval(() => {
     void (async () => {
       try {
@@ -26,7 +26,7 @@ const bootstrap = async (): Promise<void> => {
         logger.error('Failed to fetch remote image', err);
       }
     })();
-  }, 10000); // adjust interval as needed
+  }, 600000); // adjust interval as needed
 };
 
 bootstrap().catch(console.error);

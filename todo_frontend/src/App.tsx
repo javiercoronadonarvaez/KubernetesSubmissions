@@ -7,6 +7,7 @@ const App = () => {
       <>
         <LocalImage />
       </>
+      <p>DevOps with Kubernetes</p>
     </div>
   );
 };
