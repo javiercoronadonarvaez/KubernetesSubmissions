@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-app
+  template:
+    metadata:
+      labels:
+        app: todo-app
+    spec:
+      volumes:
+        - name: todo-app
+          persistentVolumeClaim:
+            claimName: todo-app-claim
+      containers:
+        # - name: ping-pong
+        #   image: javiercoronadonarvaez/ping-pong:v1.1.0
+        #   volumeMounts:
+        #     - name: todo-app
+        #       mountPath: /usr/src/app/files
+        #   resources:
+        #     requests:
+        #       cpu: "100m"
+        #       memory: "128Mi"
+        #     limits:
+        #       cpu: "500m"
+        #       memory: "512Mi"
+        #   env:
+        #     - name: PORT
+        #       value: "3001"
+        - name: todo-server
+          image: javiercoronadonarvaez/todo-server:v2.0.0
+          volumeMounts:
+            - name: todo-app
+              mountPath: /usr/src/app/files
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env:
+            - name: PORT
+              value: "3000"
