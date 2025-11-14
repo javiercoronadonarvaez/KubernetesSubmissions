@@ -13,10 +13,10 @@ spec:
                 name: todo-app-svc
                 port:
                   number: 2345
-          # - path: /pingpong
+          # - path: /api
           #   pathType: Prefix
           #   backend:
           #     service:
-          #       name: shared-ping-log-svc
+          #       name: todo-app-svc
           #       port:
           #         number: 2346
