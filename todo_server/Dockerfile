@@ -13,4 +13,5 @@ ENV PORT=3000
     
 EXPOSE $PORT
 
-CMD ["pnpm", "start"]
+## CMD ["pnpm", "start"] Change for production
+CMD ["pnpm", "start:debug"]
