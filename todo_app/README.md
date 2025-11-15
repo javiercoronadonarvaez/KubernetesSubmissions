@@ -14,7 +14,7 @@
    docker exec k3d-todo-app-cluster-agent-0 mkdir -p /tmp/kube
    ```
 
-3. Apply manifests as defined in `deployment-persistent`, `service`, `persistentvolume`, `persistentvolumeclaim` and `ingress` yaml files from the `shared_ping_log` directory.
+3. Apply manifests as defined in `deployment-persistent`, `service`, `persistentvolume`, `persistentvolumeclaim` and `ingress` yaml files from the `todo_app` directory.
 
    ```bash
    kubectl apply -f manifests
@@ -23,3 +23,15 @@
 4. Open http://localhost:8081/ to start FE application. Give it some time. Deployment and pod provisioning can take some time.
 
 5. Refresh FE at http://localhost:8081/ every 10 minutes and verify the shared volume image changes.
+
+6. To test volume persistance, run the following command to delete our `deployment-persistent` deployment from the `todo_app` directory:
+
+   ```bash
+   kubectl delete -f manifests/deployment-persistent.yaml
+   ```
+
+7. Recreate the deployment from the `todo_app` directory:
+
+   ```bash
+   kubectl apply -f manifests/deployment-persistent.yaml
+   ```

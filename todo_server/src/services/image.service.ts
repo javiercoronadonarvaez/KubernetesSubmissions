@@ -17,6 +17,9 @@ export class ImageService {
     'image.jpg',
   );
 
+  /**
+   * Fetches an image from local file system and returns the read stream.
+   */
   public getImageFromFile(): Promise<Stream | null> {
     return new Promise((resolve) => {
       fs.access(this.imagePath, fs.constants.F_OK, (err) => {
@@ -41,6 +44,9 @@ export class ImageService {
     return stream;
   }
 
+  /**
+   * Writes the provided image stream to the imagePath file.
+   */
   public async writeImageStreamToFile(stream: Stream): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const writeStream = fs.createWriteStream(this.imagePath);
