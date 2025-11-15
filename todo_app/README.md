@@ -30,7 +30,7 @@
    kubectl delete -f manifests/deployment-persistent.yaml
    ```
 
-7. Recreate the deployment from the `todo_app` directory:
+7. Recreate the deployment from the `todo_app` directory and confirm it's the same image you saw before taking first deleting it. Allow some time for the deployment to be shown as complete, preferably in Lens:
 
    ```bash
    kubectl apply -f manifests/deployment-persistent.yaml
