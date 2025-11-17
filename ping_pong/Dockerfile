@@ -11,7 +11,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-ENV PORT=3300
+ENV PORT=3001
     
 EXPOSE $PORT
 

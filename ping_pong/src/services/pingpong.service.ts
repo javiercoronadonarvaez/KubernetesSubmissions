@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { getFile, getCounter } from '../utils/pingpong';
+import { getFile, incrementCounter } from '../utils/pingpong';
 import path from 'path';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class PingPongService {
 
   public getCounter = async (): Promise<string> => {
     const textFile = await getFile(this.filePath);
-    const counterMessage = await getCounter(textFile, this.filePath);
+    const counterMessage = await incrementCounter(textFile, this.filePath);
     return counterMessage;
   };
 }

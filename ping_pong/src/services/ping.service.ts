@@ -9,7 +9,7 @@ export class PingInternalService {
 
   public getCounter = async (): Promise<string> => {
     const textFile = await getFile(this.filePath);
-    const counterMessage = await getCounter(textFile, this.filePath);
+    const counterMessage = getCounter(textFile);
     return counterMessage;
   };
 }

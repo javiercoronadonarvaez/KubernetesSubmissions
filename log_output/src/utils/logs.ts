@@ -8,14 +8,6 @@ const generateUUID = () => {
   });
 };
 
-const fileAlreadyExists = async (filePath: string): Promise<boolean> =>
-  new Promise((res) => {
-    fs.stat(filePath, (err, stats) => {
-      if (err || !stats) return res(false);
-      return res(true);
-    });
-  });
-
 export const getFile = async (filePath: string): Promise<string> =>
   new Promise((response, reject) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -39,27 +31,20 @@ export const getCounter = (body: string): string => {
   return lastMessage;
 };
 
-export const writeToFile = async (
-  directory: string,
-  filePath: string,
-): Promise<void> => {
-  if (!(await fileAlreadyExists(filePath))) {
-    await new Promise<void>((response) =>
-      fs.mkdir(directory, (err) => {
-        if (err) {
-          console.error('Failed to create directory:', err);
-        }
-        response();
-      }),
-    );
-  }
-
+export const writeLogsToFile = (filePath: string): void => {
   const randomString = generateUUID();
+
+  let timestamp = new Date().toISOString();
+  let logEntry = `${timestamp}: ${randomString}\n`;
+  console.log(logEntry);
+  fs.appendFile(filePath, logEntry, (err) => {
+    if (err) console.error('Failed to append to file:', err);
+  });
 
   // Output the string with a timestamp every 5 seconds
   setInterval(() => {
-    const timestamp = new Date().toISOString();
-    const logEntry = `${timestamp}: ${randomString}\n`;
+    timestamp = new Date().toISOString();
+    logEntry = `${timestamp}: ${randomString}\n`;
     console.log(logEntry);
     fs.appendFile(filePath, logEntry, (err) => {
       if (err) console.error('Failed to append to file:', err);

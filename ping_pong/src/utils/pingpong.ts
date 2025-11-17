@@ -27,7 +27,13 @@ export const getFile = async (filePath: string): Promise<string> =>
     });
   });
 
-export const getCounter = async (
+export const getCounter = (body: string): string => {
+  const lastMessage = body.trim();
+  console.log('Last message:', lastMessage);
+  return lastMessage;
+};
+
+export const incrementCounter = async (
   body: string,
   filePath: string,
 ): Promise<string> => {
