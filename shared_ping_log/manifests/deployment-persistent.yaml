@@ -12,16 +12,16 @@ spec:
       labels:
         app: shared-ping-log
     spec:
-      volumes:
-        - name: shared-ping-log
-          persistentVolumeClaim:
-            claimName: shared-ping-log-claim
+      # volumes:
+      #   - name: shared-ping-log
+      #     persistentVolumeClaim:
+      #       claimName: shared-ping-log-claim
       containers:
         - name: ping-pong
           image: javiercoronadonarvaez/ping-pong:v1.1.0
-          volumeMounts:
-            - name: shared-ping-log
-              mountPath: /usr/src/app/files
+          # volumeMounts:
+          #   - name: shared-ping-log
+          #     mountPath: /usr/src/app/files
           resources:
             requests:
               cpu: "100m"
@@ -34,9 +34,9 @@ spec:
               value: "3001"
         - name: log-output
           image: javiercoronadonarvaez/log-output:v1.1.0
-          volumeMounts:
-            - name: shared-ping-log
-              mountPath: /usr/src/app/files
+          # volumeMounts:
+          #   - name: shared-ping-log
+          #     mountPath: /usr/src/app/files
           resources:
             requests:
               cpu: "100m"
