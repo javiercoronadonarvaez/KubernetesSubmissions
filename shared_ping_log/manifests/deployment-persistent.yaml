@@ -18,7 +18,7 @@ spec:
       #       claimName: shared-ping-log-claim
       containers:
         - name: ping-pong
-          image: javiercoronadonarvaez/ping-pong:v1.1.0
+          image: javiercoronadonarvaez/ping-pong:v1.2.0
           # volumeMounts:
           #   - name: shared-ping-log
           #     mountPath: /usr/src/app/files

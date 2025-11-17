@@ -44,14 +44,3 @@ export const getCounter = async (
   await writeToFile(filePath, counterMessage);
   return counterMessage;
 };
-
-export const createDirectory = async (directory: string): Promise<void> => {
-  await new Promise<void>((response) =>
-    fs.mkdir(directory, (err) => {
-      if (err) {
-        console.error('Failed to create directory:', err);
-      }
-      response();
-    }),
-  );
-};
