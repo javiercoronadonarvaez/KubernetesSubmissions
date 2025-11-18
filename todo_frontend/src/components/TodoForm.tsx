@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-
-const HARDCODED_TODOS = ["Learn JavaScript", "Learn React", "Build a project"];
+import { useState, useEffect } from "react";
+import axios from "../utils/apiClient";
+// import axios from "axios";
 
 const TodoForm: React.FC = () => {
   const [input, setInput] = useState("");
-  //   const [todos, _] = useState<string[]>(HARDCODED_TODOS); // Potentially to be enabled soon
+  const [todos, setTodos] = useState<string[]>([]);
   const [error, setError] = useState("");
+
+  const refreshTodos = async () => {
+    const { data } = await axios.get("/todos");
+    setTodos(data);
+  };
+
+  useEffect(() => {
+    refreshTodos();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -16,12 +25,16 @@ const TodoForm: React.FC = () => {
     }
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.length === 0) return;
     if (input.length > 140) {
       setError("Todo must be 140 characters or less.");
       return;
     }
+    const { data } = await axios.post("/todos", {
+      title: input,
+    });
+    setTodos([...todos, data.todo]);
     setInput("");
   };
 
@@ -42,7 +55,7 @@ const TodoForm: React.FC = () => {
       </button>
       {error && <div style={{ color: "red" }}>{error}</div>}
       <ul>
-        {HARDCODED_TODOS.map((todo, idx) => (
+        {todos.map((todo, idx) => (
           <li key={idx}>{todo}</li>
         ))}
       </ul>

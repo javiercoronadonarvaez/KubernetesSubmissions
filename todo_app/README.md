@@ -20,9 +20,8 @@
    kubectl apply -f manifests
    ```
 
-4. Open http://localhost:8081/ to start FE application. Give it some time. Deployment and pod provisioning can take some time. You can see the new elements, which are the hardcoded todos and the send button:
-   ![Todo Form Screenshot](public/todoForm.png)
-
+4. Open http://localhost:8081/ to start FE application. Give it some time. Deployment and pod provisioning can take some time. You can see test Todo implementation.
+   There's an initial `GET` request for existing `todos` and a `POST` request to create new entries implemented in this version.
 5. Refresh FE at http://localhost:8081/ every 10 minutes and verify the shared volume image changes.
 
 6. To test volume persistance, run the following command to delete our `deployment-persistent` deployment from the `todo_app` directory:
