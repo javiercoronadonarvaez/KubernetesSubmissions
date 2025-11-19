@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: shared-ping-log-svc
+  namespace: exercises
 spec:
   type: ClusterIP
   selector:
