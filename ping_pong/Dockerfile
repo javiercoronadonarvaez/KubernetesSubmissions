@@ -3,6 +3,7 @@ FROM node:alpine
 WORKDIR /usr/src/app
 
 RUN mkdir -p /usr/src/app/files
+RUN mkdir -p /usr/src/app/config
 
 COPY package.json pnpm-lock.yaml ./
 
