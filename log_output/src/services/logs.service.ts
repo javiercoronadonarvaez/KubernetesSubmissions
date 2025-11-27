@@ -3,9 +3,8 @@ import { getFile, getLastLine } from '../utils/logs';
 import path from 'path';
 import axios from 'axios';
 
-const AXIOS_PING_BACKEND_URL =
-  process.env.AXIOS_PING_KUBERNETES_BACKEND_URL ||
-  'http://shared-ping-log-svc:3001/ping';
+const AXIOS_PING_PONG_BACKEND_URL = process.env.AXIOS_PING_PONG_BACKEND_URL;
+const MESSAGE = process.env.MESSAGE;
 
 @Injectable()
 export class LogsService {
@@ -15,7 +14,10 @@ export class LogsService {
   private configFilePath = path.join(this.configDirectory, 'information.txt');
 
   private getPingPongMessage = async (): Promise<string> => {
-    const response = await axios.get(AXIOS_PING_BACKEND_URL);
+    if (!AXIOS_PING_PONG_BACKEND_URL) {
+      throw new Error('AXIOS_PING_PONG_BACKEND_URL is not defined');
+    }
+    const response = await axios.get(AXIOS_PING_PONG_BACKEND_URL);
     return response.data as string;
   };
 
@@ -25,7 +27,7 @@ export class LogsService {
     const textFile = await getFile(this.logsFilePath);
     const lastLine = getLastLine(textFile);
     const pingPongMessage = await this.getPingPongMessage();
-    const combinedMessage = `file content: ${informationTextMessage}\n${lastLine}\nPing Pong Message: ${pingPongMessage}`;
+    const combinedMessage = `file content: ${informationTextMessage}\nenv variable: MESSAGE:${MESSAGE}\n${lastLine}\nPing Pong Message: ${pingPongMessage}`;
     return combinedMessage;
   };
 }
