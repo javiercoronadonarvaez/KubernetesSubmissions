@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todo-app-config-map
+  namespace: project
+data:
+  BACKEND_PORT: "3000"
+  TODO_LIST_FILE_PATH: "/usr/src/app/files/todo_list.txt"
+  IMAGE_FILE_PATH: "/usr/src/app/files/image.jpg"
+  PICSUM_API_URL: "https://picsum.photos/1200"
+  FRONTEND_PORT: "3001"
+  VITE_BACKEND_URL: "http://localhost:8081"
+  VITE_BACKEND_IMAGE_URL: "http://localhost:8081/local-image"

@@ -25,3 +25,4 @@
 - [2.3.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/2.3/shared_ping_log)
 - [2.4.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/2.4/todo_app)
 - [2.5.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/2.5/shared_ping_log)
+- [2.6.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/2.6/todo_app)

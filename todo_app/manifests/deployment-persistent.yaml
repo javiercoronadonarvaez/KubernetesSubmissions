@@ -17,12 +17,17 @@ spec:
         - name: todo-app
           persistentVolumeClaim:
             claimName: todo-app-claim
+        - name: todo-app-config
+          configMap:
+            name: todo-app-config-map
       containers:
         - name: todo-server
-          image: javiercoronadonarvaez/todo-server:v2.1.0
+          image: javiercoronadonarvaez/todo-server:v2.2.1
           volumeMounts:
             - name: todo-app
               mountPath: /usr/src/app/files
+            - name: todo-app-config
+              mountPath: /usr/src/app/config
           resources:
             requests:
               cpu: "100m"
@@ -31,13 +36,33 @@ spec:
               cpu: "500m"
               memory: "512Mi"
           env:
-            - name: PORT
-              value: "3000"
+            - name: BACKEND_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: BACKEND_PORT
+            - name: TODO_LIST_FILE_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: TODO_LIST_FILE_PATH
+            - name: IMAGE_FILE_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: IMAGE_FILE_PATH
+            - name: PICSUM_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: PICSUM_API_URL
         - name: todo-frontend
-          image: javiercoronadonarvaez/todo-frontend:v1.2.1
+          image: javiercoronadonarvaez/todo-frontend:v1.2.2
           volumeMounts:
             - name: todo-app
               mountPath: /usr/src/app/files
+            - name: todo-app-config
+              mountPath: /usr/src/app/config
           resources:
             requests:
               cpu: "100m"
@@ -46,5 +71,18 @@ spec:
               cpu: "500m"
               memory: "512Mi"
           env:
-            - name: PORT
-              value: "3001"
+            - name: FRONTEND_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: FRONTEND_PORT
+            - name: VITE_BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: VITE_BACKEND_URL
+            - name: VITE_BACKEND_IMAGE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: VITE_BACKEND_IMAGE_URL

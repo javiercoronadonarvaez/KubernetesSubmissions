@@ -1,6 +1,6 @@
-## Todo App Fullstack Persistent Volumes and Namespace
+## Todo App with Persistent Volumes, Namespace and ConfigMap for ENV variables
 
-### Follow these instructions to run frontend with access to shared persistent volume file.
+### Follow these instructions to run fullstack todo app
 
 1. Create Cluster.
 
@@ -20,7 +20,7 @@
    docker exec k3d-todo-app-cluster-agent-0 mkdir -p /tmp/kube
    ```
 
-4. Apply manifests as defined in `deployment-persistent`, `service`, `persistentvolume`, `persistentvolumeclaim` and `ingress` yaml files from the `todo_app` directory.
+4. Apply manifests from the `todo_app` directory.
 
    ```bash
    kubectl apply -f manifests
@@ -43,3 +43,5 @@
    ```
 
 9. In Lens one can filter by `namespace`, and `project` should be there with all its components as defined by these most recently updated `manifests`.
+
+10. Optionally, one can go through the complete application verifying there are no hardcoded ports, URLs or configurations. These can be found in `manifests/configmap.yaml`
