@@ -1,21 +1,17 @@
-## Ping Pong App with Log Output
+## Ping Pong App with Postgres
 
-### Follow these instructions to run the programs using deployment.yaml, service.yaml and ingress.yaml
+### Follow these instructions to start the Ping Pong application:
 
 1. Create Cluster.
 
 ```bash
-k3d cluster create log-pingpong-cluster --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
+k3d cluster create ping-pong-cluster -p 8081:80@loadbalancer --agents 2
 ```
 
-2. Apply manifests as defined in `deployment` and `service` by running these commands from the `log_output` directory.
+2. Start Postgres DB application from the `ping_pong` directory:
 
 ```bash
-kubectl apply -f manifests/deployment.yaml
-```
-
-```bash
-kubectl apply -f manifests/service.yaml
+kubectl apply -f k8s/statefulset-postgres.yaml
 ```
 
 3. Apply manifests as defined in `deployment`, `service` and `ingress` yaml files from the `ping_pong` directory.
