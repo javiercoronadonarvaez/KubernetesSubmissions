@@ -28,20 +28,20 @@ spec:
         app: ping-pong-app
     spec:
       containers:
-        - name: ping-pong
-          image: javiercoronadonarvaez/ping-pong:v2.0.0
-          resources:
-            requests:
-              cpu: '100m'
-              memory: '128Mi'
-            limits:
-              cpu: '500m'
-              memory: '512Mi'
-          env:
-            - name: PORT
-              value: '3001'
-            - name: DATABASE_URL
-              value: 'postgresql://postgres:postgres@ping-pong-svc:5432/pingpong'
+        # - name: ping-pong
+        #   image: javiercoronadonarvaez/ping-pong:v2.0.0
+        #   resources:
+        #     requests:
+        #       cpu: '100m'
+        #       memory: '128Mi'
+        #     limits:
+        #       cpu: '500m'
+        #       memory: '512Mi'
+        #   env:
+        #     - name: PORT
+        #       value: '3001'
+        #     - name: DATABASE_URL
+        #       value: 'postgresql://postgres:postgres@ping-pong-svc:5432/pingpong'
         - name: postgres
           image: postgres:18
           env:
@@ -56,19 +56,19 @@ spec:
               containerPort: 5432
           volumeMounts:
             - name: data
-              mountPath: /var/lib/postgresql/data
-      initContainers:
-        - name: wait-for-postgres
-          image: postgres:18
-          command:
-            [
-              'sh',
-              '-c',
-              'until pg_isready -h ping-pong-svc -U postgres; do sleep 2; done',
-            ]
-          env:
-            - name: POSTGRES_USER
-              value: postgres
+              mountPath: /var/lib/postgresql
+      # initContainers:
+      #   - name: wait-for-postgres
+      #     image: postgres:18
+      #     command:
+      #       [
+      #         'sh',
+      #         '-c',
+      #         'until pg_isready -h localhost -U postgres; do sleep 2; done',
+      #       ]
+      #     env:
+      #       - name: POSTGRES_USER
+      #         value: postgres
   volumeClaimTemplates:
     - metadata:
         name: data

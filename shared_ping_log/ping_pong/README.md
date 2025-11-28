@@ -14,6 +14,10 @@ k3d cluster create ping-pong-cluster -p 8081:80@loadbalancer --agents 2
 kubectl apply -f k8s/statefulset-postgres.yaml
 ```
 
+```bash
+kubectl delete -f k8s/statefulset-postgres.yaml
+```
+
 3. Apply manifests as defined in `deployment`, `service` and `ingress` yaml files from the `ping_pong` directory.
 
 ```bash
