@@ -17,6 +17,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   // The onModuleInit is optional — if you leave it out,
   // Prisma will connect lazily on its first call to the database
   public async onModuleInit(): Promise<void> {
-    await this.$connect();
+    await (this.$connect as () => Promise<void>)();
   }
 }
