@@ -24,7 +24,7 @@ kubectl delete -f k8s/statefulset-postgres.yaml
 kubectl apply -f manifests
 ```
 
-postgresql://postgres:postgres@ping-pong-svc:5432/postgres
+postgresql://postgres:postgres@localhost:5432/postgres
 
 4. Send `GET` request to http://localhost:8081.
 

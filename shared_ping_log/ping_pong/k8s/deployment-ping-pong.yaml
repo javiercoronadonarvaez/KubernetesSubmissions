@@ -12,6 +12,24 @@ spec:
       labels:
         app: ping-pong
     spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: postgres:18
+          command:
+            [
+              'sh',
+              '-c',
+              'until pg_isready -h ping-pong-svc -U postgres; do sleep 2; done',
+            ]
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+        - name: migrate
+          image: javiercoronadonarvaez/ping-pong:v2.0.0
+          command: ['sh', '-c', 'npx prisma migrate deploy']
+          env:
+            - name: DATABASE_URL
+              value: 'postgresql://postgres:postgres@ping-pong-svc:5432/postgres'
       containers:
         - name: ping-pong
           image: javiercoronadonarvaez/ping-pong:v2.0.0
@@ -26,4 +44,4 @@ spec:
             - name: PORT
               value: '3001'
             - name: DATABASE_URL
-              value: 'postgresql://postgres:postgres@ping-pong-postgres-svc:5432/postgres'
+              value: 'postgresql://postgres:postgres@ping-pong-svc:5432/postgres'
