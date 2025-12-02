@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { getFile, getCounter } from '../utils/pingpong';
-import path from 'path';
+import { PrismaService } from './prisma.service';
 
 @Injectable()
 export class PingInternalService {
-  private directory = path.join('/', 'usr', 'src', 'app', 'files');
-  private filePath = path.join(this.directory, 'ping_pong_output.txt');
+  public constructor(private readonly prismaService: PrismaService) {}
 
-  public getCounter = async (): Promise<string> => {
-    const textFile = await getFile(this.filePath);
-    const counterMessage = getCounter(textFile);
-    return counterMessage;
-  };
+  public async getCounter(): Promise<string> {
+    const latest = await this.prismaService.counter.findFirst({
+      orderBy: { id: 'desc' },
+    });
+    return latest ? latest.message : 'No counter found';
+  }
 }

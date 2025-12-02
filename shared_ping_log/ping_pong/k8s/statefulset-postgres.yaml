@@ -2,15 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ping-pong-svc
-  labels:
-    app: ping-pong
 spec:
-  ports:
-    - port: 5432
-      name: db
-  clusterIP: None
   selector:
     app: ping-pong-app
+  ports:
+    - name: db
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+
 ---
 apiVersion: apps/v1
 kind: StatefulSet

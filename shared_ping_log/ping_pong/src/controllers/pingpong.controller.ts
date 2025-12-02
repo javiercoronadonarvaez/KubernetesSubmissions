@@ -1,14 +1,16 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Logger } from '@nestjs/common';
 import { PingPongService } from '../services/pingpong.service';
 import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('pingpong')
 export class PingPongController {
-  constructor(private readonly pingPongService: PingPongService) {}
+  private readonly logger = new Logger(PingPongController.name);
+  public constructor(private readonly pingPongService: PingPongService) {}
 
   @Get()
   @ApiResponse({ status: 200, description: 'Ping Pong Response', type: String })
-  async getCounter(): Promise<string> {
-    return this.pingPongService.getCounter();
+  async incrementCounter(): Promise<string> {
+    this.logger.log('Incrementing ping pong counter');
+    return this.pingPongService.incrementCounter();
   }
 }
