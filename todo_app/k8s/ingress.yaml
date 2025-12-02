@@ -1,22 +1,30 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ping-log-ingress
+  name: todo-app-ingress
+  namespace: project
 spec:
   rules:
     - http:
         paths:
-          - path: /pingpong
+          - path: /todos
             pathType: Prefix
             backend:
               service:
-                name: ping-pong-app-svc
+                name: todo-app-svc
                 port:
-                  number: 3001
-          - path: /ping
+                  number: 3000
+          - path: /local-image
             pathType: Prefix
             backend:
               service:
-                name: ping-pong-app-svc
+                name: todo-app-svc
+                port:
+                  number: 3000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: todo-app-svc
                 port:
                   number: 3001

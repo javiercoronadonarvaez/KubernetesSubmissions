@@ -1,44 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { Logger } from '@nestjs/common';
-import fs from 'fs';
 
-const TODO_LIST_FILE_PATH = process.env.TODO_LIST_FILE_PATH || '/todo_list.txt';
+import { PrismaService } from './prisma.service';
 
 @Injectable()
 export class TodoService {
   private readonly logger = new Logger(TodoService.name);
 
-  /**
-   * Fetches the list of todos from the todo_list.txt file.
-   */
-  public getTodos = async (): Promise<string[]> => {
-    return new Promise((response, reject) => {
-      fs.readFile(TODO_LIST_FILE_PATH, 'utf8', (err, data) => {
-        if (err) {
-          if (err.code === 'ENOENT') return response([]);
-          this.logger.error('FAILED TO READ FILE', err);
-          return reject(err);
-        }
-        const todos = data.split('\n').filter((line) => line.trim() !== '');
-        response(todos);
-      });
-    });
-  };
+  public constructor(private readonly prisma: PrismaService) {}
 
   /**
-   * Adds a new todo to the todo_list.txt file.
+   * Fetches the list of todos from the Postgres database using Prisma.
+   * Returns an array of todo strings.
    */
-  public createTodo = async (title: string): Promise<string> => {
-    this.logger.log(`Creating todo with title: ${title}`);
-    await new Promise<void>((response, reject) => {
-      fs.appendFile(TODO_LIST_FILE_PATH, title + '\n', (err) => {
-        if (err) {
-          this.logger.error('Failed to append to file:', err);
-          return reject(err);
-        }
-        response();
-      });
+  public async getTodos(): Promise<string[]> {
+    const todos = await this.prisma.todo.findMany();
+    this.logger.log(`Fetched ${todos.length} todos`);
+    return todos.map((todo) => todo.todo);
+  }
+
+  /**
+   * Adds a new todo to the Postgres database using Prisma.
+   * Returns the created todo string.
+   */
+  public async createTodo(title: string): Promise<string> {
+    const newTodo = await this.prisma.todo.create({
+      data: { todo: title },
     });
-    return `${title}`;
-  };
+    this.logger.log(`Created new todo with title: ${title}`);
+    return newTodo.todo;
+  }
 }

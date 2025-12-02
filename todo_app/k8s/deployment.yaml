@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-deployment
+  namespace: project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-app
+  template:
+    metadata:
+      labels:
+        app: todo-app
+    spec:
+      volumes:
+        - name: todo-app-config
+          configMap:
+            name: todo-app-config-map
+      initContainers:
+        - name: wait-for-postgres
+          image: postgres:18
+          command:
+            [
+              "sh",
+              "-c",
+              "until pg_isready -h postgres-svc -U postgres; do sleep 2; done",
+            ]
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+        - name: migrate
+          image: javiercoronadonarvaez/todo-server:v3.0.0
+          command: ["sh", "-c", "npx prisma migrate deploy"]
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://postgres:postgres@postgres-svc:5432/todo"
+      containers:
+        - name: todo-server
+          image: javiercoronadonarvaez/todo-server:v3.0.0
+          volumeMounts:
+            - name: todo-app-config
+              mountPath: /usr/src/app/config
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env:
+            - name: BACKEND_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: BACKEND_PORT
+            - name: IMAGE_FILE_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: IMAGE_FILE_PATH
+            - name: PICSUM_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: PICSUM_API_URL
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: DATABASE_URL
+        - name: todo-frontend
+          image: javiercoronadonarvaez/todo-frontend:v1.2.3
+          volumeMounts:
+            - name: todo-app-config
+              mountPath: /usr/src/app/config
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env:
+            - name: FRONTEND_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: FRONTEND_PORT
+            - name: VITE_BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-config-map
+                  key: VITE_BACKEND_URL

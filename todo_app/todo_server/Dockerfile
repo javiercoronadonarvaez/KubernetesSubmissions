@@ -12,5 +12,13 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
+# Generate Prisma client
+ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/todo"
+RUN npx prisma generate
+
+ENV PORT=3000
+
+EXPOSE $PORT
+
 ## CMD ["pnpm", "start:debug"] FOR DEBUGGING
 CMD ["pnpm", "start"] 
