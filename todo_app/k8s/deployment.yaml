@@ -14,6 +14,9 @@ spec:
         app: todo-app
     spec:
       volumes:
+        - name: todo-app
+          persistentVolumeClaim:
+            claimName: todo-app-claim
         - name: todo-app-config
           configMap:
             name: todo-app-config-map
@@ -39,6 +42,8 @@ spec:
         - name: todo-server
           image: javiercoronadonarvaez/todo-server:v3.0.0
           volumeMounts:
+            - name: todo-app
+              mountPath: /usr/src/app/files
             - name: todo-app-config
               mountPath: /usr/src/app/config
           resources:
@@ -72,6 +77,8 @@ spec:
         - name: todo-frontend
           image: javiercoronadonarvaez/todo-frontend:v1.2.3
           volumeMounts:
+            - name: todo-app
+              mountPath: /usr/src/app/files
             - name: todo-app-config
               mountPath: /usr/src/app/config
           resources:
