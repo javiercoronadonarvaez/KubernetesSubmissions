@@ -1,4 +1,4 @@
-## Todo App with Postgres
+## Todo App with Postgres CronJob
 
 ### Follow these instructions to run fullstack todo app
 

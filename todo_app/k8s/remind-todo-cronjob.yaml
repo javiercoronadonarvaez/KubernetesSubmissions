@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: todo-reminder
+  namespace: project
+spec:
+  # schedule: "0 * * * *" # every hour
+  schedule: "*/1 * * * *" # every minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: todo-reminder
+              image: javiercoronadonarvaez/remind-todo:v1.0.0
+          restartPolicy: OnFailure

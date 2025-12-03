@@ -14,7 +14,7 @@ spec:
         app: todo-app
     spec:
       volumes:
-        - name: todo-app
+        - name: todo-app-volume
           persistentVolumeClaim:
             claimName: todo-app-claim
         - name: todo-app-config
@@ -40,9 +40,9 @@ spec:
               value: "postgresql://postgres:postgres@postgres-svc:5432/todo"
       containers:
         - name: todo-server
-          image: javiercoronadonarvaez/todo-server:v3.0.0
+          image: javiercoronadonarvaez/todo-server:v3.0.1
           volumeMounts:
-            - name: todo-app
+            - name: todo-app-volume
               mountPath: /usr/src/app/files
             - name: todo-app-config
               mountPath: /usr/src/app/config
@@ -75,9 +75,9 @@ spec:
                   name: todo-app-config-map
                   key: DATABASE_URL
         - name: todo-frontend
-          image: javiercoronadonarvaez/todo-frontend:v1.2.3
+          image: javiercoronadonarvaez/todo-frontend:v1.2.4
           volumeMounts:
-            - name: todo-app
+            - name: todo-app-volume
               mountPath: /usr/src/app/files
             - name: todo-app-config
               mountPath: /usr/src/app/config

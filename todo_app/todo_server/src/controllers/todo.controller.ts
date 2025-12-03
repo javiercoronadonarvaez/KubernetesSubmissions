@@ -16,8 +16,8 @@ export class TodoController {
   }
 
   @Post('todos')
-  async createTodo(@Body() body: { title: string }, @Res() res: Response) {
-    const todo = await this.todoService.createTodo(body.title);
+  async createTodo(@Body() body: { todo: string }, @Res() res: Response) {
+    const todo = await this.todoService.createTodo(body.todo);
     if (!todo) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)

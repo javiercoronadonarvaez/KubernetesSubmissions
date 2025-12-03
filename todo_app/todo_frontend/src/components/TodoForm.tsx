@@ -31,7 +31,7 @@ const TodoForm: React.FC = () => {
       return;
     }
     const { data } = await axios.post("/todos", {
-      title: input,
+      todo: input,
     });
     setTodos([...todos, data.todo]);
     setInput("");
