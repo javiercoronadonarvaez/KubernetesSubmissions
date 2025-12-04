@@ -43,6 +43,8 @@
    kubectl apply -f k8s
    ```
 
-9. In Lens one can filter by `namespace`, and `project` should be there with all its components as defined by these most recently updated `manifests`.
+9. Verify that a `Read <URL>WikipediaURL</URL>` todo is created every hour, as part of the CronJob implementation.
 
-10. Optionally, one can go through the complete application verifying there are no hardcoded ports, URLs (including the one for `Postgres`) or configurations. These can be found in `k8s/configmap.yaml`
+10. In Lens one can filter by `namespace`, and `project` should be there with all its components as defined by these most recently updated `manifests`.
+
+11. Optionally, one can go through the complete application verifying there are no hardcoded ports, URLs (including the one for `Postgres`) or configurations. These can be found in `k8s/configmap.yaml`

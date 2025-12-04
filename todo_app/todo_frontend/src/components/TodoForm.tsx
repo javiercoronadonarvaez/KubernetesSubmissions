@@ -54,9 +54,25 @@ const TodoForm: React.FC = () => {
       </button>
       {error && <div style={{ color: "red" }}>{error}</div>}
       <ul>
-        {todos.map((todo, idx) => (
-          <li key={idx}>{todo}</li>
-        ))}
+        {todos.map((todo, idx) => {
+          if (todo.includes("https")) {
+            // Extract the URL
+            const match = todo.match(/(https?:\/\/\S+)/);
+            if (match && typeof match.index === "number") {
+              const url = match[1];
+              const firstWordFromString = todo.substring(0, match.index);
+              return (
+                <li key={idx}>
+                  {firstWordFromString}
+                  <a href={url} target="_blank" rel="noopener noreferrer">
+                    {url}
+                  </a>
+                </li>
+              );
+            }
+          }
+          return <li key={idx}>{todo}</li>;
+        })}
       </ul>
     </div>
   );
