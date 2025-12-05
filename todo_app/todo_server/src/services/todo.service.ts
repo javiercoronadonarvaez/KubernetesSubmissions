@@ -24,6 +24,7 @@ export class TodoService {
    * Returns the created todo string.
    */
   public async createTodo(title: string): Promise<string> {
+    this.logger.log(`Received todo: ${title}`);
     const newTodo = await this.prisma.todo.create({
       data: { todo: title },
     });

@@ -40,7 +40,7 @@ spec:
               value: "postgresql://postgres:postgres@postgres-svc:5432/todo"
       containers:
         - name: todo-server
-          image: javiercoronadonarvaez/todo-server:v3.0.1
+          image: javiercoronadonarvaez/todo-server:v3.0.2
           volumeMounts:
             - name: todo-app-volume
               mountPath: /usr/src/app/files

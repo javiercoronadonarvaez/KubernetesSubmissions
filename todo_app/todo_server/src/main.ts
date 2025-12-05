@@ -2,12 +2,23 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { ImageService } from './services/image.service';
+import { ValidationPipe } from '@nestjs/common';
 import 'dotenv/config';
 
 const BACKEND_PORT = process.env.BACKEND_PORT || '3000';
 
 const bootstrap = async (): Promise<void> => {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
   await app.listen(Number(BACKEND_PORT));
   const logger = new Logger('Bootstrap');
   logger.log(`Server started on port ${BACKEND_PORT}`);

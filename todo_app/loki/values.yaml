@@ -1,0 +1,75 @@
+# Deploy Loki as a single binary using the local filesystem for storage.
+loki:
+  # Required for single replica
+  commonConfig:
+    replication_factor: 1
+
+  # Use filesystem storage and define bucket names for the TSDB index files:contentReference[oaicite:4]{index=4}.
+  storage:
+    type: filesystem
+    bucketNames:
+      chunks: chunks
+      ruler: ruler
+      admin: admin
+
+  # Configure the schema to use the filesystem object store:contentReference[oaicite:5]{index=5}.
+  schemaConfig:
+    configs:
+      - from: "2024-04-01"
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+
+  # Filesystem directory for storing chunks:contentReference[oaicite:6]{index=6}.
+  storage_config:
+    filesystem:
+      directory: /tmp/loki/chunks
+
+  # Optional: enable the pattern ingester and basic limits for log metadata.
+  pattern_ingester:
+    enabled: true
+  limits_config:
+    allow_structured_metadata: true
+    volume_enabled: true
+
+  # Enable API for recording/alerting rules if you need them.
+  ruler:
+    enable_api: true
+
+  # Disable multi‑tenant auth so Grafana doesn’t need a tenant header:contentReference[oaicite:7]{index=7}.
+  auth_enabled: false
+
+# Disable MinIO, since we’re not using object storage:contentReference[oaicite:8]{index=8}.
+minio:
+  enabled: false
+
+# Deploy Loki as a single binary; replicas=1 for a dev cluster:contentReference[oaicite:9]{index=9}.
+deploymentMode: SingleBinary
+singleBinary:
+  replicas: 1
+  # Configure persistence so that Loki uses a PVC rather than an emptyDir.
+  persistence:
+    enabled: true
+    storageClass: "" # set to your cluster’s StorageClass or leave blank for default
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+
+# Enable the nginx gateway service so Grafana can connect via http://loki-gateway.<namespace>.svc :contentReference[oaicite:10]{index=10}.
+gateway:
+  enabled: true
+
+# Zero out replicas for other deployment modes (optional but explicit).
+backend:
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0
+
+# Lower the chunk‑cache memory footprint (useful on small clusters).
+chunksCache:
+  allocatedMemory: 256
