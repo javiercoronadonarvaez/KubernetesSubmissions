@@ -26,14 +26,14 @@ spec:
             - name: POSTGRES_USER
               value: postgres
         - name: migrate
-          image: javiercoronadonarvaez/ping-pong:v2.0.0
+          image: javiercoronadonarvaez/ping-pong:v2.0.1
           command: ['sh', '-c', 'npx prisma migrate deploy']
           env:
             - name: DATABASE_URL
               value: 'postgresql://postgres:postgres@ping-pong-svc:5432/postgres'
       containers:
         - name: ping-pong
-          image: javiercoronadonarvaez/ping-pong:v2.0.0
+          image: javiercoronadonarvaez/ping-pong:v2.0.1
           resources:
             requests:
               cpu: '100m'

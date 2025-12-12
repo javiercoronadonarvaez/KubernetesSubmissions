@@ -1,39 +1,48 @@
-## Ping Pong App with Postgres
+## Ping Pong App with GKE
 
 ### Follow these instructions to start the Ping Pong application:
 
-1. Create Cluster.
+1. Create Cluster using `gcloud`. I chose `northamerica-south1-a` because it's the closest one to me. Please take that into account when selecting the zone.
 
    ```bash
-   k3d cluster create ping-pong-cluster -p 8081:80@loadbalancer --agents 2
+   gcloud container clusters create dwk-cluster --zone=northamerica-south1-a --cluster-version=1.32 --disk-size=32 --num-nodes=3 --machine-type=e2-small
    ```
 
-2. Start Ping Pong application with Postgres DB from the `ping_pong` directory:
+2. Create `exercises` namespace:
 
    ```bash
-   kubectl apply -f k8s
+   kubectl create namespace exercises
    ```
 
-3. Send `GET` request to http://localhost:8081/pingpong.
+3. Start Ping Pong application with GKE dedicated `yaml` files, as defined in the `ping_pong` directory. Run the following command from this folder:
+
+   ```bash
+   kubectl apply -f gke
+   ```
+
+4. Run the following command and wait until there is an available EXTERNAL-IP:
+
+   ```bash
+   $ kubectl get svc --watch
+   NAME            TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)        AGE
+   kubernetes      ClusterIP      10.31.240.1     <none>         443/TCP        144m
+   ping-pong-app-lb   LoadBalancer   10.31.241.224   35.228.41.16   80:30215/TCP   94s
+   ```
+
+5. Retrieve the `EXTERNAL-IP` from the previous step and send `GET` request to http://35.228.41.16/pingpong.
 
    Expect something like the following upon first try:
    `Ping / Pongs: 0`
 
    This number will increase with each subsequent request.
 
-4. Send `GET` request to http://localhost:8081/ping.
+6. Send `GET` request to http://35.228.41.16/ping.
 
    Expect the current counter. This request does not increase the counter:
    `Ping / Pongs: 1`
 
-5. To verify data is backed up, run the following command to delete all the ping pong app related processes:
+7. Delete the cluster when you are done:
 
    ```bash
-   kubectl delete -f k8s
-   ```
-
-6. Re apply the `yaml` files and verify the counter is the same as you left it:
-
-   ```bash
-   kubectl apply -f k8s
+   gcloud container clusters delete dwk-cluster --zone=northamerica-south1-a
    ```

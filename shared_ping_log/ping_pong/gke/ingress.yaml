@@ -11,13 +11,13 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ping-pong-app-svc
+                name: ping-pong-app-lb
                 port:
                   number: 3001
           - path: /ping
             pathType: Prefix
             backend:
               service:
-                name: ping-pong-app-svc
+                name: ping-pong-app-lb
                 port:
                   number: 3001

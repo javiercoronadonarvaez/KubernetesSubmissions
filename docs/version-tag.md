@@ -5,7 +5,7 @@ git add -A
 ```
 
 ```bash
-git commit -m "chore(release): 2.1"
+git commit -m "chore(release): 3.1"
 ```
 
 ```bash
@@ -13,5 +13,5 @@ git push origin HEAD
 ```
 
 ```bash
-gh release create 2.1 --target main --generate-notes
+gh release create 3.1 --target main --generate-notes
 ```
