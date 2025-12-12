@@ -33,4 +33,4 @@
 
 ### Chapter 3
 
-- [3.1.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/2.1/shared_ping_log/ping-pong)
+- [3.1.](https://github.com/javiercoronadonarvaez/KubernetesSubmissions/tree/3.1/shared_ping_log/ping-pong)
