@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shared-ping-log-ingress
+  namespace: exercises
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: shared-ping-log-svc
+                port:
+                  number: 3000
+          - path: /pingpong
+            pathType: Prefix
+            backend:
+              service:
+                name: shared-ping-log-svc
+                port:
+                  number: 3001

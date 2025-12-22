@@ -1,23 +1,23 @@
-## Log and Ping Pong app with GKE
+## Log and Ping Pong app Fullstack with ConfigMap LATEST LOCAL VERSION
 
 ### Follow these instructions to run deployment, service, ingress, configMap and Persistent Volume creation and claim for the Log output and Ping Pong apps
 
-1. Create Cluster using `gcloud`. I chose `northamerica-south1-a` because it's the closest one to me. Please take that into account when selecting the zone.
+1. Create Cluster.
 
    ```bash
-   gcloud container clusters create dwk-cluster --zone=northamerica-south1-a --cluster-version=1.32 --disk-size=32 --num-nodes=3 --machine-type=e2-small
+   k3d cluster create shared-ping-log-cluster -p 8081:80@loadbalancer --agents 2
    ```
 
-2. Create `exercises` namespace:
+2. Create Namespace.
 
    ```bash
    kubectl create namespace exercises
    ```
 
-3. Start Ping Pong application with GKE dedicated `yaml` files, as defined in the `ping_pong` directory. Run the following command from this folder:
+3. Create `/tmp/kube` local path in the node we are binding the Persistent Volume to.
 
    ```bash
-   kubectl apply -f gke
+   docker exec k3d-shared-ping-log-cluster-agent-0 mkdir -p /tmp/kube
    ```
 
 4. Apply manifests as defined in `deployment-persistent`, `service`, `persistentvolume`, `persistentvolumeclaim`, `configmap` and `ingress` yaml files from the `shared_ping_log` directory.
