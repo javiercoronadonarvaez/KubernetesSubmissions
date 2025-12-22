@@ -4,7 +4,7 @@ metadata:
   name: shared-ping-log-claim
   namespace: exercises
 spec:
-  storageClassName: shared-ping-log-pv-sc
+  storageClassName: standard-rwo
   accessModes:
     - ReadWriteOnce
   resources:

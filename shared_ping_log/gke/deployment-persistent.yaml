@@ -13,6 +13,24 @@ spec:
       labels:
         app: shared-ping-log
     spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: postgres:18
+          command:
+            [
+              "sh",
+              "-c",
+              "until pg_isready -h postgres-svc -U postgres; do sleep 2; done",
+            ]
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+        - name: migrate
+          image: javiercoronadonarvaez/ping-pong:v2.0.2
+          command: ["sh", "-c", "npx prisma migrate deploy"]
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://postgres:postgres@postgres-svc:5432/postgres"
       volumes:
         - name: shared-ping-log-pvc
           persistentVolumeClaim:
@@ -22,7 +40,7 @@ spec:
             name: shared-ping-log-config-map
       containers:
         - name: ping-pong
-          image: javiercoronadonarvaez/ping-pong:v1.2.1
+          image: javiercoronadonarvaez/ping-pong:v2.0.2
           volumeMounts:
             - name: shared-ping-log-pvc
               mountPath: /usr/src/app/files
@@ -38,8 +56,10 @@ spec:
           env:
             - name: PORT
               value: "3001"
+            - name: DATABASE_URL
+              value: "postgresql://postgres:postgres@postgres-svc:5432/postgres"
         - name: log-output
-          image: javiercoronadonarvaez/log-output:v1.2.1
+          image: javiercoronadonarvaez/log-output:v1.2.2
           volumeMounts:
             - name: shared-ping-log-pvc
               mountPath: /usr/src/app/files

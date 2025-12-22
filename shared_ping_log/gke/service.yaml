@@ -4,7 +4,7 @@ metadata:
   name: shared-ping-log-svc
   namespace: exercises
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: shared-ping-log
   ports:
