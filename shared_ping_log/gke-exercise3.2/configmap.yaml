@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shared-ping-log-config-map
+  namespace: exercises
+data:
+  information.txt: |
+    this text is from file
+  MESSAGE: hello world
+  AXIOS_PING_PONG_BACKEND_URL: http://shared-ping-log-svc:3001/ping #http://localhost:3001/ping
