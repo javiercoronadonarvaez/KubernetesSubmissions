@@ -1,4 +1,4 @@
-## Log and Ping Pong app with GKE Route Rewriting
+## Log and Ping Pong app with GKE with Gateway API
 
 ### Follow these instructions to run deployment, service, ingress, configMap and Persistent Volume creation and claim for the Log output and Ping Pong apps
 
@@ -31,17 +31,17 @@
    ```bash
    $ kubectl get gateway --namespace exercises
    NAME                      CLASS                            ADDRESS          PROGRAMMED   AGE
-   shared-ping-log-gateway   gke-l7-global-external-managed   34.8.187.203   True         11m
+   shared-ping-log-gateway   gke-l7-global-external-managed   34.107.180.245   True         11m
    ```
 
-6. Send a `GET` request to http://34.8.187.203/. Thanks to our Route Rewriting, this request is sent to http://shared-ping-log-svc:3001/pingpong. We perform this operation to start the counter writing process. Give the Deployment some time to get ready. Its status could be consulted in detail with Lens.
+6. Send a `GET` request to http://34.107.180.245/pingpong to start the counter writing process. Give the Deployment some time to get ready. Its status could be consulted in detail with Lens.
 
    Expect something like the following in the response's body:
    `Ping / Pongs: 0`
 
    You would receive that message upon making the first request. The counter increases by one with each subsequent call.
 
-7. Send `GET` request to http://34.8.187.203/api. Thanks to our Route Rewriting, this request is sent to http://shared-ping-log-svc:3000/. We perform this operation to retrieve the last line (most recent one) from the `log_output.txt` file alongside environmental variables and the values from the `information.txt` file as defined in the `configMap`.
+7. Send `GET` request to http://34.107.180.245/ to retrieve the last line (most recent one) from the `log_output.txt` file alongside environmental variables and the values from the `information.txt` file as defined in the `configMap`.
 
    Expect something like the following:
 
@@ -52,9 +52,9 @@
    Ping Pong Message: Ping / Pongs: 2
    ```
 
-8. Alternatively, start by sending a `GET` request to http://34.8.187.203/api. If no requests have been sent to http://34.8.187.203/ prior to this operation, the pong counter will remain empty.
+8. Alternatively, start by sending a `GET` request to http://34.107.180.245/. If no requests have been sent to http://34.107.180.245/pingpong prior to this operation, the pong counter will remain empty.
 
-9. Corroborate that the `ping-pong` counter only increments when sending `GET` requests to http://34.8.187.203/. Likewise, corroborate that accessing the `log-output` app reflects the number of recorded `ping-pong` clicks, as defined with the counter mentioned at the beginning of this point.
+9. Corroborate that the `ping-pong` counter only increments when sending `GET` requests to http://34.107.180.245/pingpong. Likewise, corroborate that accessing the `log-output` app reflects the number of recorded `ping-pong` clicks, as defined with the counter mentioned at the beginning of this point.
 
 10. Delete the cluster when you are done:
 

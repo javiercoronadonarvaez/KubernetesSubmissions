@@ -1,4 +1,4 @@
-## Log and Ping Pong app with GKE
+## Log and Ping Pong app with GKE with Ingress
 
 ### Follow these instructions to run deployment, service, ingress, configMap and Persistent Volume creation and claim for the Log output and Ping Pong apps
 
